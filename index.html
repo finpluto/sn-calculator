@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<header>
+
+</header>
+
+<body>
+    <form id="inputform">
+        <label for="serialnum">SN Number:</label>
+        <input type="text" id="serialnum">
+        <input type="submit">
+    </form>
+    <p>注册码是: <span style="color: red;" id="result"></span></p>
+    <script>
+        function cal(serialNum) {
+            if (serialNum == null || serialNum === "") {
+                return "";
+            }
+            const l = serialNum.length;
+            const s =
+                serialNum.substring(l - Math.min(l, 2), l) +
+                "z" +
+                serialNum.substring(0, Math.min(l, 2)) +
+                serialNum.substr(Math.min(l, 3) - 1, Math.min(l - 2, 3)) +
+                `${l}` +
+                String.fromCharCode(65 + l - Math.floor(l / 26) * 26);
+
+            let sn = "";
+            for (let i = 1; i <= l; i++) {
+                let si = s.codePointAt(i - 1) + i * i - i;
+                if (si < 48) {
+                    si = 65 + si - Math.floor(si / 26) * 26;
+                } else if (si > 57 && si < 65) {
+                    si = 100 + si - 57;
+                } else if (si > 90 && si < 97) {
+                    si = 50 + si - 90;
+                } else if (si > 122 && si < 135) {
+                    si = 97 + si - Math.floor(si / 26) * 26;
+                } else if (si >= 135) {
+                    si = 48 + si - Math.floor(si / 10) * 10;
+                }
+                sn = sn + String.fromCharCode(si);
+                console.log(sn);
+            }
+            return sn;
+        }
+        function submitHandler(e) {
+            const retDom = document.querySelector("#result");
+            const inputDom = document.querySelector("#serialnum");
+            retDom.textContent = cal(inputDom.value);
+            e.preventDefault();
+        }
+        const inputForm = document.querySelector("#inputform");
+        inputForm.addEventListener("submit", submitHandler);
+    </script>
+</body>
