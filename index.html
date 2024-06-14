@@ -25,7 +25,7 @@
                 String.fromCharCode(65 + l - Math.floor(l / 26) * 26);
 
             let sn = "";
-            for (let i = 1; i <= l; i++) {
+            for (let i = 1; i <= s.length; i++) {
                 let si = s.codePointAt(i - 1) + i * i - i;
                 if (si < 48) {
                     si = 65 + si - Math.floor(si / 26) * 26;
